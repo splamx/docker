@@ -24,7 +24,7 @@ dc-down () {
 dc-build () {
     nobuildkit=0
     OPTIND=1
-    while getopts ':kh' OPTION; do
+    while getopts ':k' OPTION; do
         case "$OPTION" in
             k)
               shift;
