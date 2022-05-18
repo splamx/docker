@@ -1,0 +1,46 @@
+## docker stuff
+## spl <sean@linko.us> 05/2022
+
+dexec () {
+    docker exec "$@"
+}
+
+dping () {
+    docker exec "$1" ping "$2" -c3
+}
+
+dbash () {
+    docker exec -it "$1" /bin/bash
+}
+
+dc-up () {
+    docker compose up "$@"
+}
+
+dc-down () {
+    docker compose down "$@"
+}
+
+dc-build () {
+    nobuildkit=0
+    OPTIND=1
+    while getopts ':kh' OPTION; do
+        case "$OPTION" in
+            k)
+              shift;
+              echo "Building with DOCKER_BUILDKIT=0"
+              nobuildkit=1;
+              ;;
+        esac
+    done
+
+    if [ $nobuildkit -eq 1 ]; then
+        DOCKER_BUILDKIT=0 docker compose build "$@"
+    else
+        docker compose build "$@"
+    fi
+}
+
+dnet () {
+    docker network "$@"
+}
